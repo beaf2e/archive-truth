@@ -1,0 +1,788 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCHIVE-04 | 조작된 진실</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #070b0b;
+    color: #b6e9c4;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+#game {
+    min-height: 100vh;
+    border: 1px solid #244b38;
+    background: #070b0b;
+}
+
+.top {
+    background: #0b1712;
+    border-bottom: 1px solid #244b38;
+    padding: 13px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #7fe6a0;
+    font-weight: 800;
+}
+
+.muted {
+    color: #668575;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.status {
+    padding: 3px 7px;
+    border: 1px solid #315e44;
+    border-radius: 3px;
+    font-size: 10px;
+    color: #83dca0;
+}
+
+.main {
+    padding: 16px;
+    max-width: 760px;
+    margin: auto;
+}
+
+.hero {
+    padding: 24px 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid #1e382b;
+}
+
+.hero small {
+    color: #6da985;
+    letter-spacing: 3px;
+    font-size: 10px;
+}
+
+h1 {
+    font-size: clamp(23px, 5vw, 34px);
+    letter-spacing: 3px;
+    color: #a6ffc0;
+    margin: 13px 0 6px;
+    text-shadow: 0 0 18px #37ad65;
+}
+
+.subtitle {
+    font-size: 11px;
+    color: #789482;
+    letter-spacing: 2px;
+}
+
+.progress {
+    display: flex;
+    gap: 5px;
+    margin: 17px 0 7px;
+}
+
+.progress span {
+    height: 4px;
+    flex: 1;
+    background: #1b3025;
+    border-radius: 4px;
+}
+
+.progress span.done {
+    background: #5be28c;
+    box-shadow: 0 0 8px #38a65d;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    color: #789482;
+    font-size: 10px;
+}
+
+.panel {
+    margin-top: 17px;
+    border: 1px solid #244332;
+    background: #0a120e;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.panel-head {
+    padding: 10px 12px;
+    background: #101f16;
+    border-bottom: 1px solid #244332;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #8fdaa8;
+    letter-spacing: 1px;
+}
+
+.content {
+    padding: 15px;
+    font-size: 13px;
+    line-height: 1.85;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    min-height: 145px;
+}
+
+.inputrow {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid #244332;
+    background: #0d1711;
+}
+
+input {
+    min-width: 0;
+    flex: 1;
+    background: #07100b;
+    border: 1px solid #31543d;
+    border-radius: 3px;
+    padding: 12px;
+    color: #baffc9;
+    font: 13px ui-monospace, monospace;
+    outline: none;
+}
+
+input:focus {
+    border-color: #75d995;
+    box-shadow: 0 0 0 2px #285638;
+}
+
+button {
+    background: #17452a;
+    border: 1px solid #3e8755;
+    border-radius: 3px;
+    color: #c2ffd1;
+    padding: 10px 15px;
+    font: 12px ui-monospace, monospace;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #22623a;
+}
+
+button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.tools button {
+    background: #101e15;
+    border-color: #294d35;
+    color: #9dc7a9;
+}
+
+.feedback {
+    font-size: 12px;
+    line-height: 1.7;
+    padding: 12px;
+    margin-top: 12px;
+    border: 1px solid #31583d;
+    background: #101d14;
+    white-space: pre-wrap;
+}
+
+.feedback.bad {
+    border-color: #75413b;
+    color: #ff9a8d;
+}
+
+.feedback.good {
+    color: #a4efb5;
+}
+
+.hide {
+    display: none !important;
+}
+
+.statgrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.stat {
+    border: 1px solid #294331;
+    padding: 10px;
+    text-align: center;
+    background: #0d1711;
+}
+
+.stat strong {
+    display: block;
+    font-size: 19px;
+    color: #a4edb5;
+}
+
+.stat span {
+    font-size: 9px;
+    color: #718c7a;
+}
+
+.footer {
+    padding: 14px;
+    text-align: center;
+    color: #526d5a;
+    font-size: 10px;
+    border-top: 1px solid #1e382b;
+    letter-spacing: 1px;
+}
+
+@media(max-width:420px) {
+    .main { padding: 10px; }
+    .content { font-size: 12px; padding: 12px; }
+}
+</style>
+</head>
+
+<body>
+<div id="game">
+
+<header class="top">
+    <div>
+        <div class="brand">◈ ARCHIVE SYSTEM</div>
+        <div class="muted">KNP EVIDENCE DATABASE / SECTOR 04</div>
+    </div>
+    <span class="status" id="status">SYSTEM ONLINE</span>
+</header>
+
+<main class="main">
+
+<div class="hero">
+    <small>CLASSIFIED INVESTIGATION PROJECT</small>
+    <h1>조작된 진실</h1>
+    <div class="subtitle">
+        THE TRUTH IS BURIED IN THE EVIDENCE
+    </div>
+</div>
+
+<div class="progress" id="progress">
+    <span></span><span></span><span></span>
+</div>
+
+<div class="meta">
+    <span id="stage">INITIALIZATION</span>
+    <span id="count">0 / 3 FILES</span>
+</div>
+
+<div class="panel">
+
+    <div class="panel-head">
+        <span id="heading">SYSTEM TERMINAL</span>
+        <span id="time">ARCHIVE-04</span>
+    </div>
+
+    <div class="content" id="content" aria-live="polite">
+ARCHIVE SYSTEM BOOTING...
+SECURE CONNECTION ESTABLISHED.
+
+기록 보관실 ARCHIVE-04에 접속했습니다.
+수사 기록의 무결성을 확인하는 중입니다...
+    </div>
+
+    <div class="inputrow" id="inputrow">
+        <span style="align-self:center;color:#65cb85;font-size:12px">›</span>
+        <input id="input"
+            placeholder="명령어를 입력하세요"
+            autocomplete="off"
+            maxlength="120">
+        <button id="submit">입력 ↵</button>
+    </div>
+
+</div>
+
+<div id="feedback" class="feedback hide"></div>
+
+<div class="tools">
+    <button id="hint">힌트 확인</button>
+    <button id="skip" style="display:none">
+        다음 단계 →
+    </button>
+    <button id="restart">처음부터 재시작 ↻</button>
+</div>
+
+<div class="statgrid">
+    <div class="stat">
+        <strong id="solved">0</strong>
+        <span>해결 파일</span>
+    </div>
+    <div class="stat">
+        <strong id="errors">0</strong>
+        <span>오답 횟수</span>
+    </div>
+    <div class="stat">
+        <strong id="hints">0</strong>
+        <span>사용 힌트</span>
+    </div>
+</div>
+
+</main>
+
+<div class="footer">
+    KNP DATABASE · AUTHORIZED ACCESS ONLY · ARCHIVE-04
+</div>
+
+</div>
+
+<script>
+(() => {
+
+const root = document.getElementById('game');
+
+const $ = id => document.getElementById(id);
+
+let stage = -1;
+let errors = 0;
+let hints = 0;
+let solved = 0;
+let locked = false;
+let ended = false;
+
+const data = [
+
+{
+    title: 'FILE 01 / 현장 분석',
+    label: 'OBSERVATION',
+
+    intro: `[사건 개요]
+11월 5일 밤, 도심 외곽의 주택에서 침입 절도 사건이 발생했습니다.
+용의자 김 씨는 사건 당일 현장을 방문한 사실을 부인하지 않았지만, 당시 상황에 대한 진술이 의심스럽습니다.
+
+[증거물 A / 용의자 진술서]
+"밤 9시쯤 비가 억수같이 쏟아졌습니다. 저는 우산을 쓰고 집에 돌아왔습니다."
+
+[증거물 B / 기상관측소 공식 기록]
+20:00 ~ 22:00 강수량: 0.0mm
+22:17 최초 강우 관측
+관측 장비 정상 작동 확인.
+
+[증거물 C / 현관 사진]
+촬영 시각: 21:30
+현관에 놓인 우산의 외부에는 물기가 관찰됩니다.
+
+[질문]
+김 씨의 진술과 정면으로 모순되는 객관적 증거는 무엇입니까?
+핵심 증거를 입력하십시오.`,
+
+    answers: [
+        '강수량',
+        '비가오지',
+        '비가 안',
+        '강우',
+        '기상관측',
+        '22시17',
+        '22:17'
+    ],
+
+    hint: '우산의 상태보다 먼저, 사건 당일 21시의 실제 날씨를 확인하십시오.',
+
+    explain: `<SYSTEM_VERIFIED>
+결정적 증거는 기상관측소 기록입니다.
+21시에는 비가 오지 않았고, 최초 강우는 22시 17분에 관측되었습니다.
+따라서 김 씨가 21시에 폭우 속에서 귀가했다는 진술은 객관적인 기상 기록과 모순됩니다.
+
+※ 우산의 겉면이 젖었다는 사실만으로는 거짓말을 입증할 수 없습니다. 다른 시간이나 장소에서 물에 젖었을 가능성이 있기 때문입니다.`
+},
+
+{
+    title: 'FILE 02 / 교차 신문',
+    label: 'LOGIC ANALYSIS',
+
+    intro: `[FILE 01 검증 완료]
+김 씨의 주택에서 네 명의 용의자에 관한 교차 신문 기록이 발견되었습니다.
+
+[수사 조건]
+① 범인은 A, B, C, D 중 한 명입니다.
+② 네 명 중 정확히 한 명만 거짓말을 합니다.
+③ 나머지 세 명은 진실을 말합니다.
+
+[증거물 D / 신문 조서]
+
+A: "범인은 B입니다."
+B: "범인은 D입니다."
+C: "저는 범인이 아닙니다."
+D: "B가 범인을 D라고 말한 것은 거짓입니다."
+
+[질문]
+위 조건을 모두 만족할 때, 범인은 누구입니까?
+알파벳 하나를 입력하십시오.`,
+
+    answers: ['b', '용의자 b', '범인은 b'],
+
+    hint: '범인이 A, B, C, D인 경우를 각각 가정해 보세요. 진술이 거짓이 되는 사람의 수를 세면 됩니다.',
+
+    explain: `<SYSTEM_VERIFIED>
+정답은 B입니다.
+
+범인이 B라면:
+A: 참 (범인은 B)
+B: 거짓 (범인은 D가 아님)
+C: 참 (C는 범인이 아님)
+D: 참 (B의 진술은 거짓)
+
+정확히 한 명만 거짓말한다는 조건을 만족합니다.
+
+다른 경우에는 거짓말하는 사람의 수가 1명이 되지 않습니다.
+따라서 범인은 B로 유일하게 결정됩니다.`
+},
+
+{
+    title: 'FILE 03 / 암호와 법률',
+    label: 'LEGAL DECRYPTION',
+
+    intro: `[FILE 02 검증 완료]
+진범 B가 사용한 단말기에서 암호화된 메모가 발견되었습니다.
+
+[증거물 E / 암호화된 메모]
+암호 방식: 영문 QWERTY 자판으로 한글 입력
+
+암호문:
+"dkssud"
+
+[해독 규칙]
+영문 키를 한글 두벌식 자판에 대응시키십시오.
+
+[추가 수사 기록]
+메모에는 범행을 계획했다는 문장이 적혀 있습니다.
+그러나 실제 범행을 시작했다는 사실은 확인되지 않았습니다.
+
+[질문 1]
+암호문을 한글로 해독하십시오.
+
+[질문 2]
+범행을 실행하기 전 범죄를 계획하고 준비하는 단계를 가리키는 법률 용어는 무엇입니까?
+두 글자로 입력하십시오.`,
+
+    answers: ['예비'],
+
+    hint: '암호문은 한글 두벌식 자판 기준으로 해독합니다. 법률 용어는 범죄 실행 전의 준비 단계에 해당합니다.',
+
+    explain: `<SYSTEM_VERIFIED>
+암호문 "dkssud"는 "안녕"입니다.
+
+법률 용어는 '예비'입니다.
+범죄의 예비는 범죄 실행 전의 준비 단계이며, 음모는 두 사람 이상이 범죄를 함께 실행하기로 합의하는 것을 뜻합니다.
+
+중요한 법률적 구분:
+범행을 계획하거나 준비했다는 사실만으로 언제나 처벌되는 것은 아닙니다. 형법상 예비·음모 처벌 규정이 있는 범죄인지 별도로 확인해야 합니다.
+또한 단순한 계획과 실제 실행의 착수는 구분해야 합니다.`
+}
+
+];
+
+function progress() {
+
+    $('progress').querySelectorAll('span')
+        .forEach((el, i) => {
+            el.classList.toggle('done', i < solved);
+        });
+
+    $('count').textContent = solved + ' / 3 FILES';
+    $('solved').textContent = solved;
+    $('errors').textContent = errors;
+    $('hints').textContent = hints;
+}
+
+function showFeedback(msg, good) {
+
+    $('feedback').className =
+        'feedback ' + (good ? 'good' : 'bad');
+
+    $('feedback').textContent = msg;
+    $('feedback').classList.remove('hide');
+}
+
+function display() {
+
+    const d = data[stage];
+
+    $('heading').textContent = d.title;
+    $('stage').textContent = d.label;
+    $('time').textContent = 'CASE 0' + (stage + 1);
+
+    $('content').textContent = d.intro;
+
+    $('input').value = '';
+    $('input').disabled = false;
+    $('input').placeholder = '정답을 입력하세요';
+
+    $('submit').disabled = false;
+
+    $('inputrow').classList.remove('hide');
+
+    $('feedback').classList.add('hide');
+    $('skip').style.display = 'none';
+
+    $('status').textContent = 'INVESTIGATION';
+
+    $('input').focus();
+
+    locked = false;
+
+    progress();
+}
+
+function intro() {
+
+    stage = -1;
+    ended = false;
+    locked = false;
+
+    $('heading').textContent = 'SYSTEM INITIALIZATION';
+    $('stage').textContent = 'ACCESS CONTROL';
+    $('time').textContent = 'SECURITY LEVEL 04';
+
+    $('content').textContent = `SYSTEM BOOT SEQUENCE COMPLETE
+
+접근 권한: 승인됨
+보안 구역: 증거보관실 ARCHIVE-04
+
+당신은 오래된 사건 기록을 조사하기 위해 이곳에 들어왔습니다.
+그러나 갑자기 출입문이 잠겼습니다.
+
+시스템 메시지:
+"외부 통신이 차단되었습니다.
+세 개의 사건 파일을 검증하면 마스터 접근 권한이 복구됩니다."
+
+당신에게 필요한 것은 무기가 아닙니다.
+관찰력, 논리력, 그리고 법률적 판단입니다.
+
+수사를 시작하려면 '시작'을 입력하십시오.`;
+
+    $('input').disabled = false;
+    $('input').value = '';
+    $('input').placeholder = '시작 입력';
+
+    $('inputrow').classList.remove('hide');
+    $('feedback').classList.add('hide');
+
+    $('skip').style.display = 'none';
+    $('status').textContent = 'LOCKED';
+
+    $('input').focus();
+
+    progress();
+}
+
+function finish() {
+
+    ended = true;
+    stage = 3;
+    solved = 3;
+
+    progress();
+
+    $('heading').textContent = 'MISSION COMPLETE';
+    $('stage').textContent = 'ACCESS RESTORED';
+    $('time').textContent = 'CLEAR';
+
+    $('content').textContent = `[MASTER AUTHORIZATION ACCEPTED]
+
+세 개의 사건 파일 검증 완료.
+증거 분석: 통과
+논리 추론: 통과
+법률 판단: 통과
+
+잠금장치 해제 중...
+외부 통신 복구 중...
+출입문 개방 완료.
+
+MISSION CLEARED.
+
+당신은 기록 속에 숨겨진 모순을 발견했고,
+진실을 조작하려던 흔적을 밝혀냈습니다.
+
+하지만 마지막 기록 한 줄이 남아 있습니다.
+
+"ARCHIVE-04의 모든 사건은 누군가에 의해 다시 기록되었다."
+
+수사관님, 이것으로 정말 끝난 것일까요?`;
+
+    $('inputrow').classList.add('hide');
+    $('feedback').classList.add('hide');
+
+    $('status').textContent = 'ACCESS GRANTED';
+}
+
+function submit() {
+
+    if (locked || ended) return;
+
+    const val = $('input').value.trim();
+
+    if (!val) return;
+
+    if (stage === -1) {
+
+        if (!['시작', 'start'].includes(val.toLowerCase())) {
+
+            errors++;
+
+            showFeedback(
+                '명령어를 인식하지 못했습니다. 시작을 입력하십시오.',
+                false
+            );
+
+            progress();
+
+            $('input').value = '';
+
+            return;
+        }
+
+        stage = 0;
+        display();
+
+        return;
+    }
+
+    const d = data[stage];
+
+    let ok = false;
+
+    if (stage === 0) {
+
+        ok = d.answers.some(a =>
+            val.replace(/\s/g, '').includes(
+                a.replace(/\s/g, '')
+            )
+        );
+
+    } else if (stage === 1) {
+
+        ok = ['b', '용의자b', '범인은b'].includes(
+            val.toLowerCase().replace(/\s/g, '')
+        );
+
+    } else if (stage === 2) {
+
+        ok = ['예비'].includes(
+            val.replace(/\s/g, '')
+        );
+    }
+
+    if (!ok) {
+
+        errors++;
+
+        showFeedback(
+            '검증 실패: 정답이 아닙니다. 증거와 조건을 다시 확인하십시오.',
+            false
+        );
+
+        progress();
+
+        $('input').value = '';
+        $('input').focus();
+
+        return;
+    }
+
+    locked = true;
+
+    solved++;
+    progress();
+
+    $('input').disabled = true;
+    $('submit').disabled = true;
+
+    $('content').textContent =
+        d.intro + '\n\n' + d.explain;
+
+    showFeedback(
+        '검증 성공. 사건 파일이 해제되었습니다.',
+        true
+    );
+
+    $('skip').style.display = 'inline-block';
+
+    $('skip').textContent =
+        stage === 2
+        ? '최종 결과 확인 →'
+        : '다음 사건 파일 →';
+}
+
+$('submit').addEventListener('click', submit);
+
+$('input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submit();
+});
+
+$('hint').addEventListener('click', () => {
+
+    if (stage < 0 || ended) {
+        showFeedback('먼저 수사를 시작하십시오.', false);
+        return;
+    }
+
+    hints++;
+    progress();
+
+    showFeedback(
+        '수사 힌트\n' + data[stage].hint,
+        true
+    );
+});
+
+$('skip').addEventListener('click', () => {
+
+    if (!locked) return;
+
+    if (stage === 2) {
+        finish();
+    } else {
+        stage++;
+        display();
+    }
+});
+
+$('restart').addEventListener('click', () => {
+
+    errors = 0;
+    hints = 0;
+    solved = 0;
+
+    intro();
+});
+
+setTimeout(() => {
+
+    if (!root.isConnected) return;
+
+    $('content').textContent =
+        'ARCHIVE SYSTEM BOOTING...\n' +
+        'SECURE CONNECTION ESTABLISHED.\n\n' +
+        '접속 준비 완료. 수사를 시작하십시오.';
+
+}, 450);
+
+intro();
+
+})();
+</script>
+
+</body>
+</html>
